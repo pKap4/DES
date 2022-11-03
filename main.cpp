@@ -28,7 +28,6 @@ string expansion(string rpt){
         ctr+=4;
     }
     
-    
     assert(output.size() == 48);
     return output;
 }
@@ -53,19 +52,14 @@ string func_xor(string rpt, string key){
 string s_box_sub(string rpt, int s_box[4][16]){
     string output = "";
     int ctr = 0;
-    //cout<<"rpt : "<<rpt<<endl;
     for (int i = 0; i < 8; i++) {
-        /* code */
         string row = "", col = "";
         
         string str = rpt.substr(ctr, 6);
-        //cout<<"str : "<<str<<endl;
         row += str[0];
         row += str[5];
         string temp = str.substr(4, 1);
         col += temp;
-        
-        //cout<<"row : "<<row<<" col : "<<col<<endl;
         
         int rows = stoi(row, 0, 2);
         int cols = stoi(col, 0, 2);
@@ -82,6 +76,7 @@ string s_box_sub(string rpt, int s_box[4][16]){
 
 string function_box(string rpt, string key, int rd){
     
+    //obtained publicly available s-boxes
     int s_boxes[2][4][16] = { {14, 4,  13, 1, 2,  15, 11, 8,  3,  10, 6,  12, 5,
           9,  0,  7,  0, 15, 7,  4,  14, 2,  13, 1,  10, 6,
           12, 11, 9,  5, 3,  8,  4,  1,  14, 8,  13, 6,  2,
@@ -113,11 +108,11 @@ string encryption(string plain_text, string key){
     string output1 = function_box(rpt, key, 1);
     output1 = func_xor(output1, lpt);
     
+    //round 2
     string output2 = function_box(output1, key, 2);
     output2 = func_xor(rpt, output2);
     
     string out = output2+output1;
-    
     return out;
 }
 
@@ -129,7 +124,6 @@ int main()
    string pt;
    
    for (int i = 0; i < 8; i++) {
-       /* code */
        int val = int(str[i]);
        std::string binary = std::bitset<8>(val).to_string(); //to binary
        pt += binary;
@@ -142,7 +136,6 @@ int main()
     string bit_key;
     
     for (int i = 0; i < 6; i++) {
-       /* code */
        int val = int(key[i]);
        std::string binary = std::bitset<8>(val).to_string(); //to binary
        bit_key += binary;
